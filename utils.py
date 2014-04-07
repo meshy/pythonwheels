@@ -8,6 +8,10 @@ import requests
 
 BASE_URL = 'http://pypi.python.org/pypi'
 
+DEPRECATED_PACKAGES = [
+    'distribute',
+    'django-social-auth',
+]
 
 SESSION = requests.Session()
 
@@ -65,6 +69,10 @@ def get_top_packages():
     print('Getting packages...')
     packages = req_rpc('top_packages')
     return [{'name': n, 'downloads': d} for n, d in packages]
+
+
+def not_deprecated(package):
+    return package['name'] not in DEPRECATED_PACKAGES
 
 
 def remove_irrelevant_packages(packages, limit):
