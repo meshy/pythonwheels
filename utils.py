@@ -77,7 +77,8 @@ def not_deprecated(package):
 
 def remove_irrelevant_packages(packages, limit):
     print('Removing cruft...')
-    return packages[:limit]
+    active_packages = filter(not_deprecated, packages)
+    return active_packages[:limit]
 
 
 def save_to_file(packages, file_name):
