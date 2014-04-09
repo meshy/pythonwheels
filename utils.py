@@ -8,10 +8,10 @@ import requests
 
 BASE_URL = 'http://pypi.python.org/pypi'
 
-DEPRECATED_PACKAGES = {
+DEPRECATED_PACKAGES = set((
     'distribute',
     'django-social-auth',
-}
+))
 
 SESSION = requests.Session()
 
