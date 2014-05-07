@@ -1,31 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            function json_success(response){
-                // Update copy
-                console.log(response);
-                $("span.date").html(response['last_update']);
-
-                var data = response['data'];
-
-                // Populate table
-                var tbl_body = "";
-                $.each(data, function(i, v) {
-                    var line = '<a class="btn btn-' + v['css_class'] +
-                               '" href="https://pypi.python.org/pypi/' +
-                               v['name'] + '" title="' + v['title'] + '">' +
-                               v['name'] + ' ' + v['icon'] + '</a>';
-                    tbl_body += line;
-                })
-                $(".list").html(tbl_body);
-            };
-            $.getJSON('results.json', json_success);
-        });
-    </script>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body{margin-top:15px;}
@@ -39,7 +15,7 @@
     </style>
     <title>Python Wheels</title>
 </head>
-<body>
+<body ng-controller="wheelCtrl">
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -88,14 +64,27 @@
                 <p>Thanks to the <a href="https://python3wos.appspot.com/">Python 3 Wall of Superpowers</a> for the concept and making their code open source, <a href="https://twitter.com/dstufft">Donald Stufft</a> for his help on IRC, <a href="https://twitter.com/jturnbull">James Turnbull</a> for the intro copy, and <a href="http://ghickman.co.uk/">George Hickman</a> for pointing me in the right direction as usual.</p>
             </div>
             <div class="col-sm-6">
-                <div class="list">pythonwheels.com requires javascript to be enabled to display the list of packages.</div>
+                <div class="list">
+                    <span ng-hide="packages">pythonwheels.com requires javascript to be enabled to display the list of packages.</span>
+                    <a ng-repeat="package in packages" href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}">{{ package.name }} {{ package.icon }}</a>
+                </div>
             </div>
         </div>
         <footer>
             <p>Written by <a href="http://meshy.co.uk/">meshy</a>, sponsored by <a href="http://incuna.com/">Incuna</a>, code on <a href="https://github.com/meshy/pythonwheels">Github</a>.</p>
-            <p>Last updated <span class="date"></span>. (Updated hourly.)</p>
+            <p>Last updated {{ last_update }}. (Updated hourly.)</p>
         </footer>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.js"></script>
+    <script src="main.js">
+        var app = angular.module('app', [])
+        .controller('wheelCtrl', function ($scope, $http){
+            $http.get('results.json').then(function(res){
+                $scope.last_update = res.data.last_update;
+                $scope.packages = res.data.data;
+            });
+        });
+    </script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-45641000-1']);
