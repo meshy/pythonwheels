@@ -24,33 +24,33 @@ CENTER = PADDING + RADIUS
 TAU = 2*math.pi
 
 
-def annular_sector_path(
-        center_x, center_y, inner_radius, outer_radius, start, stop):
+def annular_sector_path(start, stop):
+    inner_radius = RADIUS//2
+    outer_radius = RADIUS
+    cos_stop = math.cos(stop)
+    cos_start = math.cos(start)
+    sin_stop = math.sin(stop)
+    sin_start = math.sin(start)
+
     points = {
         'inner_radius': inner_radius,
         'outer_radius': outer_radius,
-        'start_outer_x': center_x + outer_radius*math.cos(start),
-        'start_outer_y': center_y + outer_radius*math.sin(start),
-        'end_outer_x': center_x + outer_radius*math.cos(stop),
-        'end_outer_y': center_y + outer_radius*math.sin(stop),
-        'start_inner_x': center_x + inner_radius*math.cos(stop),
-        'start_inner_y': center_y + inner_radius*math.sin(stop),
-        'end_inner_x': center_x + inner_radius*math.cos(start),
-        'end_inner_y': center_y + inner_radius*math.sin(start),
+        'start_outer_x': CENTER + outer_radius*cos_start,
+        'start_outer_y': CENTER + outer_radius*sin_start,
+        'end_outer_x': CENTER + outer_radius*cos_stop,
+        'end_outer_y': CENTER + outer_radius*sin_stop,
+        'start_inner_x': CENTER + inner_radius*cos_stop,
+        'start_inner_y': CENTER + inner_radius*sin_stop,
+        'end_inner_x': CENTER + inner_radius*cos_start,
+        'end_inner_y': CENTER + inner_radius*sin_start,
     }
-
     return PATH_TEMPLATE.format(**points)
 
 
-def add_annular_sector(
-        wheel, center, inner_radius, outer_radius, start, stop, style_class):
+def add_annular_sector(wheel, start, stop, style_class):
     return et.SubElement(
         wheel, 'path',
-        d=annular_sector_path(
-            center_x=center[0], center_y=center[1],
-            inner_radius=inner_radius, outer_radius=outer_radius,
-            start=start, stop=stop,
-        ),
+        d=annular_sector_path(start=start, stop=stop),
         attrib={'class': style_class},
     )
 
@@ -110,8 +110,6 @@ def generate_svg_wheel(packages, total):
         start, stop = angles(index, total)
         sector = add_annular_sector(
             wheel,
-            center=(CENTER, CENTER),
-            inner_radius=RADIUS//2, outer_radius=RADIUS,
             start=start, stop=stop,
             style_class=result['css_class'],
         )
