@@ -76,7 +76,7 @@
         </footer>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.js"></script>
-    <script src="main.js">
+    <script>
         var app = angular.module('app', [])
         .controller('wheelCtrl', function ($scope, $http){
             $http.get('results.json').then(function(res){
