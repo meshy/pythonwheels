@@ -66,13 +66,16 @@
             <div class="col-sm-6">
                 <div class="list">
                     <span ng-hide="packages">pythonwheels.com requires javascript to be enabled to display the list of packages.</span>
-                    <a ng-repeat="package in packages" ng-href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}">{{ package.name }} {{ package.icon }}</a>
+                    <a ng-repeat="package in packages" ng-href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}">
+                        <span ng-bind="package.name"></span>
+                        <span ng-bind="package.icon"></span>
+                    </a>
                 </div>
             </div>
         </div>
         <footer>
             <p>Written by <a href="http://meshy.co.uk/">meshy</a>, sponsored by <a href="http://incuna.com/">Incuna</a>, code on <a href="https://github.com/meshy/pythonwheels">Github</a>.</p>
-            <p>Last updated {{ last_update }}. (Updated hourly.)</p>
+            <p>Last updated <span ng-bind="last_update"></span>. (Updated hourly.)</p>
         </footer>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.js"></script>
