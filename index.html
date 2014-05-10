@@ -66,7 +66,7 @@
             <div class="col-sm-6">
                 <div class="list">
                     <span ng-hide="packages">pythonwheels.com requires javascript to be enabled to display the list of packages.</span>
-                    <a ng-repeat="package in packages" href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}">{{ package.name }} {{ package.icon }}</a>
+                    <a ng-repeat="package in packages" ng-href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}">{{ package.name }} {{ package.icon }}</a>
                 </div>
             </div>
         </div>
