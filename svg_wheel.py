@@ -46,12 +46,15 @@ def annular_sector_path(start, stop):
     return PATH_TEMPLATE.format(**points)
 
 
-def add_annular_sector(wheel, start, stop, style_class):
-    return et.SubElement(
-        wheel, 'path',
-        d=annular_sector_path(start=start, stop=stop),
-        attrib={'class': style_class},
-    )
+def add_annular_sectors(wheel, packages, total):
+    for index, result in enumerate(packages):
+        sector = et.SubElement(
+            wheel, 'path',
+            d=annular_sector_path(*angles(index, total)),
+            attrib={'class': result['css_class']},
+        )
+        title = et.SubElement(sector, 'title')
+        title.text = u'{0} {1}'.format(result['name'], result['icon'])
 
 
 def angles(index, total):
@@ -112,15 +115,7 @@ def generate_svg_wheel(packages, total):
         xmlns='http://www.w3.org/2000/svg',
     )
 
-    for index, result in enumerate(packages):
-        start, stop = angles(index, total)
-        sector = add_annular_sector(
-            wheel,
-            start=start, stop=stop,
-            style_class=result['css_class'],
-        )
-        title = et.SubElement(sector, 'title')
-        title.text = u'{0} {1}'.format(result['name'], result['icon'])
+    add_annular_sectors(wheel, packages, total)
 
     add_fraction(wheel, packages, total)
 
