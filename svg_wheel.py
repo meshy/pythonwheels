@@ -19,30 +19,29 @@ Z
 FRACTION_LINE = 80
 OFFSET = 20
 PADDING = 10
-RADIUS = 180
-CENTER = PADDING + RADIUS
+OUTER_RADIUS = 180
+INNER_RADIUS = OUTER_RADIUS / 2
+CENTER = PADDING + OUTER_RADIUS
 TAU = 2 * math.pi  # The angle, in radians, of a full circle.
 
 
 def annular_sector_path(start, stop):
-    inner_radius = RADIUS//2
-    outer_radius = RADIUS
     cos_stop = math.cos(stop)
     cos_start = math.cos(start)
     sin_stop = math.sin(stop)
     sin_start = math.sin(start)
 
     points = {
-        'inner_radius': inner_radius,
-        'outer_radius': outer_radius,
-        'start_outer_x': CENTER + outer_radius*cos_start,
-        'start_outer_y': CENTER + outer_radius*sin_start,
-        'end_outer_x': CENTER + outer_radius*cos_stop,
-        'end_outer_y': CENTER + outer_radius*sin_stop,
-        'start_inner_x': CENTER + inner_radius*cos_stop,
-        'start_inner_y': CENTER + inner_radius*sin_stop,
-        'end_inner_x': CENTER + inner_radius*cos_start,
-        'end_inner_y': CENTER + inner_radius*sin_start,
+        'inner_radius': INNER_RADIUS,
+        'outer_radius': OUTER_RADIUS,
+        'start_outer_x': CENTER + OUTER_RADIUS * cos_start,
+        'start_outer_y': CENTER + OUTER_RADIUS * sin_start,
+        'end_outer_x': CENTER + OUTER_RADIUS * cos_stop,
+        'end_outer_y': CENTER + OUTER_RADIUS * sin_stop,
+        'start_inner_x': CENTER + INNER_RADIUS * cos_stop,
+        'start_inner_y': CENTER + INNER_RADIUS * sin_stop,
+        'end_inner_x': CENTER + INNER_RADIUS * cos_start,
+        'end_inner_y': CENTER + INNER_RADIUS * sin_start,
     }
     return PATH_TEMPLATE.format(**points)
 
