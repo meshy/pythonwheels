@@ -21,7 +21,7 @@ OFFSET = 20
 PADDING = 10
 RADIUS = 180
 CENTER = PADDING + RADIUS
-TAU = 2*math.pi
+TAU = 2 * math.pi  # The angle, in radians, of a full circle.
 
 
 def annular_sector_path(start, stop):
@@ -56,10 +56,17 @@ def add_annular_sector(wheel, start, stop, style_class):
 
 
 def angles(index, total):
-    start = index * TAU / total
-    stop = (index + 1) * TAU / total
+    # Angle, in radians, of one wedge of the wheel.
+    angle_per_wedge = TAU / total
+    # Used to turn the start of the wheel from east to north.
+    quarter_circle = TAU / 4
 
-    return (start - TAU/4, stop - TAU/4)
+    # Angle of the beginning of the wedge.
+    start = (index * angle_per_wedge) - quarter_circle
+    # Angle of the end of the wedge.
+    stop = start + angle_per_wedge
+
+    return start, stop
 
 
 def add_fraction(wheel, packages, total):
