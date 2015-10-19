@@ -49,11 +49,12 @@ def annular_sector_path(start, stop):
 def add_annular_sectors(wheel, packages, total):
     for index, result in enumerate(packages):
         sector = et.SubElement(
-            wheel, 'path',
+            parent=wheel,
+            tag='path',
             d=annular_sector_path(*angles(index, total)),
             attrib={'class': result['css_class']},
         )
-        title = et.SubElement(sector, 'title')
+        title = et.SubElement(parent=sector, tag='title')
         title.text = u'{0} {1}'.format(result['name'], result['icon'])
 
 
@@ -84,8 +85,10 @@ def add_fraction(wheel, packages, total):
     wheel_packages = sum(package['wheel'] for package in packages)
 
     packages_with_wheels = et.SubElement(
-        wheel, 'text',
-        x=str(CENTER), y=str(CENTER - OFFSET),
+        parent=wheel,
+        tag='text',
+        x=str(CENTER),
+        y=str(CENTER - OFFSET),
         attrib=text_attributes,
     )
     packages_with_wheels.text = '{0}'.format(wheel_packages)
@@ -93,15 +96,19 @@ def add_fraction(wheel, packages, total):
     # Dividing line
     et.SubElement(
         wheel, 'line',
-        x1=str(CENTER - FRACTION_LINE//2), y1=str(CENTER),
-        x2=str(CENTER + FRACTION_LINE//2), y2=str(CENTER),
+        x1=str(CENTER - FRACTION_LINE//2),
+        y1=str(CENTER),
+        x2=str(CENTER + FRACTION_LINE//2),
+        y2=str(CENTER),
         attrib={'stroke': '#333333', 'stroke-width': '2'},
     )
 
     # Total packages
     total_packages = et.SubElement(
-        wheel, 'text',
-        x=str(CENTER), y=str(CENTER + OFFSET),
+        parent=wheel,
+        tag='text',
+        x=str(CENTER),
+        y=str(CENTER + OFFSET),
         attrib=text_attributes,
     )
     total_packages.text = '{0}'.format(total)
@@ -109,7 +116,7 @@ def add_fraction(wheel, packages, total):
 
 def generate_svg_wheel(packages, total):
     wheel = et.Element(
-        'svg',
+        tag='svg',
         viewBox='0 0 {0} {0}'.format(2*CENTER),
         version='1.1',
         xmlns='http://www.w3.org/2000/svg',
