@@ -6,7 +6,7 @@ import pytz
 import requests
 
 
-BASE_URL = 'http://pypi.python.org/pypi'
+BASE_URL = 'https://pypi.python.org/pypi'
 
 DEPRECATED_PACKAGES = set((
     'distribute',
