@@ -1,4 +1,5 @@
 import math
+import os
 import xml.etree.ElementTree as et
 
 
@@ -121,3 +122,6 @@ def generate_svg_wheel(packages, total):
     with open('wheel.svg', 'w') as svg:
         svg.write(HEADERS)
         svg.write(et.tostring(wheel))
+
+    # Install with: npm install svgexport -g
+    os.system('svgexport wheel.svg wheel.png 32:32')
