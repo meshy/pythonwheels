@@ -11,6 +11,7 @@ BASE_URL = 'https://pypi.python.org/pypi'
 DEPRECATED_PACKAGES = set((
     'distribute',
     'django-social-auth',
+    'BeautifulSoup'
 ))
 
 SESSION = requests.Session()
