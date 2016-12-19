@@ -50,7 +50,7 @@ pip install wheel</pre>
                     <p>&hellip;and when you'd normally run <code>python setup.py sdist upload</code>, run instead <code>python setup.py sdist bdist_wheel upload</code>. For a more in-depth explanation, see this guide on <a href="https://hynek.me/articles/sharing-your-labor-of-love-pypi-quick-and-dirty/">sharing your labor of love</a>.</p>
                     <p><em>Note: </em>If your project is python 2 and 3 compatible you can create a universal wheel distribution. Create a file called <code>setup.cfg</code> with the following content and upload your package.</p>
                         <pre>
-[bdist_wheel]
+[wheel]
 universal = 1</pre>
                         <p><strong>Warning: </strong>If your project has optional C extensions, it is recommended not to publish a universal wheel, because pip will prefer the wheel over a source installation.</p>
                     <h3 id="dirty-wheel">C extensions</h3>
