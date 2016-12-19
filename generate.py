@@ -1,11 +1,6 @@
 from svg_wheel import generate_svg_wheel
-from utils import (
-    annotate_wheels,
-    get_top_packages,
-    remove_irrelevant_packages,
-    save_to_file,
-)
-
+from utils import (annotate_wheels, get_top_packages,
+                   remove_irrelevant_packages, save_to_file)
 
 TO_CHART = 360
 
