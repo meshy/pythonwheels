@@ -3,12 +3,8 @@ language: python
 # Supported CPython versions:
 # https://en.wikipedia.org/wiki/CPython#Version_history
 python:
- - pypy3
- - pypy
  - 2.7
  - 3.6
- - 3.5
- - 3.4
 
 sudo: false
 
@@ -19,6 +15,9 @@ script:
  # Static analysis
  - pyflakes .
  - pep8 --statistics --count .
+
+ # Test run
+ - python generate.py
 
 matrix:
   fast_finish: true
