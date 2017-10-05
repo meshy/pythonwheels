@@ -10,6 +10,7 @@ sudo: false
 
 install:
  - pip install pep8 pyflakes
+ - pip install -r requirements.txt
 
 script:
  # Static analysis
