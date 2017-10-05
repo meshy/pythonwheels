@@ -11,6 +11,7 @@ sudo: false
 install:
  - pip install pep8 pyflakes
  - pip install -r requirements.txt
+ - npm install svgexport -g
 
 script:
  # Static analysis
