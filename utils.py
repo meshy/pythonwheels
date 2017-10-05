@@ -63,7 +63,8 @@ def annotate_wheels(packages):
         else:
             package['css_class'] = 'default'
             package['icon'] = u'\u2717'  # Ballot X
-            package['title'] = 'This package has no wheel archives uploaded (yet!).'
+            package['title'] = ('This package has no wheel archives uploaded '
+                                '(yet!).')
 
 
 def get_top_packages():
