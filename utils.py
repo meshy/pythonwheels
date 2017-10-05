@@ -1,6 +1,12 @@
+from __future__ import print_function
 import datetime
 import json
-import xmlrpclib
+try:
+    # Python 2.7
+    import xmlrpclib
+except ImportError:
+    # Python 3
+    import xmlrpc.client as xmlrpclib
 
 import pytz
 import requests
@@ -41,7 +47,7 @@ def annotate_wheels(packages):
     print('Getting wheel data...')
     num_packages = len(packages)
     for index, package in enumerate(packages):
-        print index + 1, num_packages, package['name']
+        print(index + 1, num_packages, package['name'])
         has_wheel = False
         url = get_json_url(package['name'])
         response = SESSION.get(url)
@@ -79,7 +85,7 @@ def not_deprecated(package):
 
 def remove_irrelevant_packages(packages, limit):
     print('Removing cruft...')
-    active_packages = filter(not_deprecated, packages)
+    active_packages = list(filter(not_deprecated, packages))
     return active_packages[:limit]
 
 
