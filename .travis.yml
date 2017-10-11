@@ -2,21 +2,18 @@ language: python
 
 # Supported CPython versions:
 # https://en.wikipedia.org/wiki/CPython#Version_history
-python:
- - 2.7
- - 3.6
+python: 3.6
 
 sudo: false
 
 install:
- - pip install pep8 pyflakes
+ - pip install flake8
  - pip install -r requirements.txt
  - npm install svgexport -g
 
 script:
  # Static analysis
- - pyflakes .
- - pep8 --statistics --count .
+ - flake8 --statistics --count .
 
  # Test run
  - python generate.py
