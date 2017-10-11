@@ -1,9 +1,9 @@
-from __future__ import print_function
 import datetime
 import json
+import xmlrpc.client
+
 import pytz
 import requests
-import xmlrpc.client
 
 
 BASE_URL = 'https://pypi.python.org/pypi'
