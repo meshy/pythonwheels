@@ -1,15 +1,9 @@
 from __future__ import print_function
 import datetime
 import json
-try:
-    # Python 2.7
-    import xmlrpclib
-except ImportError:
-    # Python 3
-    import xmlrpc.client as xmlrpclib
-
 import pytz
 import requests
+import xmlrpc.client
 
 
 BASE_URL = 'https://pypi.python.org/pypi'
@@ -24,7 +18,7 @@ SESSION = requests.Session()
 
 
 def req_rpc(method, *args):
-    payload = xmlrpclib.dumps(args, method)
+    payload = xmlrpc.client.dumps(args, method)
 
     response = SESSION.post(
         BASE_URL,
@@ -32,7 +26,7 @@ def req_rpc(method, *args):
         headers={'Content-Type': 'text/xml'},
     )
     if response.status_code == 200:
-        result = xmlrpclib.loads(response.content)[0][0]
+        result = xmlrpc.client.loads(response.content)[0][0]
         return result
     else:
         # Some error occurred
