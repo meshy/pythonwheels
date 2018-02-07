@@ -6,11 +6,11 @@ import requests
 
 BASE_URL = 'https://pypi.python.org/pypi'
 
-DEPRECATED_PACKAGES = set((
+DEPRECATED_PACKAGES = {
     'distribute',
     'django-social-auth',
     'BeautifulSoup'
-))
+}
 
 SESSION = requests.Session()
 
