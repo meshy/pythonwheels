@@ -1,7 +1,5 @@
 import datetime
 import json
-import xmlrpc.client
-
 import pytz
 import requests
 
@@ -15,22 +13,6 @@ DEPRECATED_PACKAGES = set((
 ))
 
 SESSION = requests.Session()
-
-
-def req_rpc(method, *args):
-    payload = xmlrpc.client.dumps(args, method)
-
-    response = SESSION.post(
-        BASE_URL,
-        data=payload,
-        headers={'Content-Type': 'text/xml'},
-    )
-    if response.status_code == 200:
-        result = xmlrpc.client.loads(response.content)[0][0]
-        return result
-    else:
-        # Some error occurred
-        pass
 
 
 def get_json_url(package_name):
@@ -69,8 +51,16 @@ def annotate_wheels(packages):
 
 def get_top_packages():
     print('Getting packages...')
-    packages = req_rpc('top_packages')
-    return [{'name': n, 'downloads': d} for n, d in packages]
+
+    with open('top-pypi-packages.json') as data_file:
+        packages = json.load(data_file)
+
+    # Rename keys
+    for package in packages:
+        package['downloads'] = package.pop('download_count')
+        package['name'] = package.pop('project')
+
+    return packages
 
 
 def not_deprecated(package):
