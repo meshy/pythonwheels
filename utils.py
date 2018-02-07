@@ -7,9 +7,11 @@ import requests
 BASE_URL = 'https://pypi.python.org/pypi'
 
 DEPRECATED_PACKAGES = {
+    'BeautifulSoup',
     'distribute',
     'django-social-auth',
-    'BeautifulSoup'
+    'pep8',
+    'sklearn',
 }
 
 SESSION = requests.Session()
