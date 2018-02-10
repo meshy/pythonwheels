@@ -55,7 +55,7 @@ def get_top_packages():
     print('Getting packages...')
 
     with open('top-pypi-packages.json') as data_file:
-        packages = json.load(data_file)
+        packages = json.load(data_file)['rows']
 
     # Rename keys
     for package in packages:
