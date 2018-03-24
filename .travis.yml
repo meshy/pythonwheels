@@ -12,6 +12,9 @@ install:
  - npm install svgexport -g
 
 script:
+ # Fetch fresh copy of top packages
+ - wget https://hugovk.github.io/top-pypi-packages/top-pypi-packages-365-days.min.json -O top-pypi-packages.json
+
  # Static analysis
  - flake8 --statistics --count .
 
