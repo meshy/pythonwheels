@@ -24,7 +24,7 @@
             <h1 id="wheels">Python Wheels</h1>
                 <object data="wheel.svg" type="image/svg+xml" width="380" height="380" class="center-block"></object>
                 <h2 id="what">What are wheels?</h2>
-                <p><a href="https://pypi.python.org/pypi/wheel">Wheels</a> are <a href="http://www.python.org/dev/peps/pep-0427">the new standard</a> of Python distribution and are intended to replace eggs. Support is offered in <code>pip &gt;= 1.4</code> and <code>setuptools &gt;= 0.8</code>.</p>
+                <p><a href="https://pypi.org/project/wheel">Wheels</a> are <a href="http://www.python.org/dev/peps/pep-0427">the new standard</a> of Python distribution and are intended to replace eggs. Support is offered in <code>pip &gt;= 1.4</code> and <code>setuptools &gt;= 0.8</code>.</p>
                 <h3 id="advantages">Advantages of wheels</h3>
                 <ol>
                     <li>Faster installation for pure Python and native C extension packages.</li>
@@ -35,7 +35,7 @@
                     <li>More consistent installs across platforms and machines.</li>
                 </ol>
                 <h2 id="about-list">What is this list?</h2>
-                <p>This site shows the top 360 most-downloaded packages on <a href="https://pypi.python.org/pypi">PyPI</a> showing which have been uploaded as wheel archives.</p>
+                <p>This site shows the top 360 most-downloaded packages on <a href="https://pypi.org/">PyPI</a> showing which have been uploaded as wheel archives.</p>
                 <ul>
                     <li><span class="text-success">Green</span> packages offer wheels,</li>
                     <li><span class="text-muted">White</span> packages have no wheel archives uploaded (yet!).</li>
@@ -71,7 +71,7 @@ license_file = LICENSE
             <div class="col-sm-6">
                 <div class="list">
                     <span ng-hide="packages">pythonwheels.com requires javascript to be enabled to display the list of packages.</span>
-                    <a ng-repeat="package in packages" ng-href="https://pypi.python.org/pypi/{{ package.name }}" class="btn btn-{{ package.css_class }}" ng-attr-title="{{package.title}}">
+                    <a ng-repeat="package in packages" ng-href="https://pypi.org/project/{{ package.name }}" class="btn btn-{{ package.css_class }}" ng-attr-title="{{package.title}}">
                         <span ng-bind="package.name"></span>
                         <span ng-bind="package.icon"></span>
                     </a>
