@@ -4,7 +4,7 @@ import pytz
 import requests
 
 
-BASE_URL = 'https://pypi.python.org/pypi'
+BASE_URL = 'https://pypi.org/pypi'
 
 DEPRECATED_PACKAGES = {
     'BeautifulSoup',
