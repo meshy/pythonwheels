@@ -16,7 +16,7 @@ script:
  - flake8 --statistics --count .
 
  # Test run
- - python generate.py
+ - make generate
 
 matrix:
   fast_finish: true
