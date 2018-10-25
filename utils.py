@@ -22,6 +22,13 @@ SESSION = requests.Session()
 def get_json_url(package_name):
     return BASE_URL + '/' + package_name + '/json'
 
+wheel_icon = {}
+wheel_icon['manylinux1_py3'] = ''
+wheel_icon['manylinux1_py2'] = ''
+wheel_icon['win32_py3'] = ''
+wheel_icon['win32_py2'] = ''
+wheel_icon['win_amd64_py3'] = ''
+wheel_icon['win_amd64_py2'] = ''
 
 def annotate_wheels(packages):
     print('Getting wheel data...')
@@ -29,6 +36,12 @@ def annotate_wheels(packages):
     for index, package in enumerate(packages):
         print(index + 1, num_packages, package['name'])
         has_wheel = False
+        has_manylinux_py3 = False
+        has_manylinux_py2 = False
+        has_win32_py3 = False
+        has_win32_py2 = False
+        has_win_amd64_py3 = False
+        has_win_amd64_py2 = False
         url = get_json_url(package['name'])
         response = SESSION.get(url)
         if response.status_code != 200:
@@ -38,7 +51,26 @@ def annotate_wheels(packages):
         for download in data['urls']:
             if download['packagetype'] == 'bdist_wheel':
                 has_wheel = True
+                if download['python_version'].startswith("cp3") and 'manylinux1' in download['filename']:
+                    has_manylinux_py3 = True
+                if download['python_version'].startswith("cp2") and 'manylinux1' in download['filename']:
+                    has_manylinux_py2 = True
+                if download['python_version'].startswith("cp3") and 'win32' in download['filename']:
+                    has_win32_py3 = True
+                if download['python_version'].startswith("cp2") and 'win32' in download['filename']:
+                    has_win32_py2 = True
+                if download['python_version'].startswith("cp3") and 'win_amd64' in download['filename']:
+                    has_win32_py3 = True
+                if download['python_version'].startswith("cp2") and 'win_amd64' in download['filename']:
+                    has_win32_py2 = True
+
         package['wheel'] = has_wheel
+        package['manylinux1_py3'] = has_manylinux_py3
+        package['manylinux1_py2'] = has_manylinux_py2
+        package['win32_py3'] = has_win32_py3
+        package['win32_py2'] = has_win32_py2
+        package['win_amd64_py3'] = has_win_amd64_py3
+        package['win_amd64_py2'] = has_win_amd64_py2
 
         # Display logic. I know, I'm sorry.
         package['value'] = 1
@@ -52,6 +84,12 @@ def annotate_wheels(packages):
             package['title'] = ('This package has no wheel archives uploaded '
                                 '(yet!).')
 
+        available_types = []
+        for wheel_type in ['manylinux1_py3', 'manylinux1_py2', 'win32_py3', 'win32_py2', 'win_amd64_py3', 'win_amd64_py2']:
+            if package[wheel_type]:
+                available_types.append(wheel_type)
+
+        package['title'] += ' [{}]'.format(", ".join(available_types))
 
 def get_top_packages():
     print('Getting packages...')

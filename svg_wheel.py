@@ -62,7 +62,7 @@ def angles(index, total):
     return (start - TAU / 4, stop - TAU / 4)
 
 
-def add_fraction(wheel, packages, total):
+def add_fraction(wheel, packages, total, wheel_type='wheel'):
     text_attributes = {
         'text-anchor': 'middle',
         'dominant-baseline': 'central',
@@ -72,7 +72,7 @@ def add_fraction(wheel, packages, total):
     }
 
     # Packages with some sort of wheel
-    wheel_packages = sum(package['wheel'] for package in packages)
+    wheel_packages = sum(package[wheel_type] for package in packages)
 
     packages_with_wheels = et.SubElement(
         wheel, 'text',
@@ -131,3 +131,51 @@ def generate_svg_wheel(packages, total):
 
     # Install with: npm install svgexport -g
     os.system('svgexport wheel.svg wheel.png 32:32')
+
+
+def get_view(wheel_type):
+    return {
+        True: {
+            'css_class': 'success',
+            'icon': u'\u2713',  # Check mark
+            'title': 'This package provides a {} wheel.'.format(wheel_type)
+        },
+        False: {
+            'css_class': 'default',
+            'icon': u'\u2717',  # Ballot X
+            'title': ('This package has no {} wheel archives uploaded '
+                        '(yet!).').format(wheel_type)
+
+        }
+    }
+
+
+
+
+def generate_svg(wheel_type, packages, total):
+    wheel = et.Element(
+        'svg',
+        viewBox='0 0 {0} {0}'.format(2 * CENTER),
+        version='1.1',
+        xmlns='http://www.w3.org/2000/svg',
+    )
+
+    for index, result in enumerate(packages):
+        result.update(get_view(wheel_type)[result[wheel_type]])
+        start, stop = angles(index, total)
+        sector = add_annular_sector(
+            wheel,
+            start=start, stop=stop,
+            style_class=result['css_class'],
+        )
+        title = et.SubElement(sector, 'title')
+        title.text = u'{0} {1}'.format(result['name'], result['icon'])
+
+    add_fraction(wheel, packages, total, wheel_type)
+
+    with open('{}.svg'.format(wheel_type), 'wb') as svg:
+        svg.write(HEADERS)
+        svg.write(et.tostring(wheel))
+
+    # Install with: npm install svgexport -g
+    os.system('svgexport {0}.svg {0}.png 32:32'.format(wheel_type))
