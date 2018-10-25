@@ -143,13 +143,10 @@ def get_view(wheel_type):
         False: {
             'css_class': 'default',
             'icon': u'\u2717',  # Ballot X
-            'title': ('This package has no {} wheel archives uploaded '
-                        '(yet!).').format(wheel_type)
-
+            'title': 'This package has no {} wheel archives uploaded'
+                     '(yet!).'.format(wheel_type)
         }
     }
-
-
 
 
 def generate_svg(wheel_type, packages, total):
