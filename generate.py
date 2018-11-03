@@ -8,8 +8,13 @@ TO_CHART = 360
 def main():
     packages = remove_irrelevant_packages(get_top_packages(), TO_CHART)
     annotate_wheels(packages)
+    wheel_types = ['manylinux1_py3', 'manylinux1_py2',
+                   'win32_py3', 'win32_py2',
+                   'win_amd64_py3', 'win_amd64_py2',
+                   'macos_py2', 'macos_py2']
+    packages = [p for p in packages if p['is_c_module'] or any([p[t] for t in wheel_types])]
     save_to_file(packages, 'results.json')
-    generate_svg_wheel(packages, TO_CHART)
+    generate_svg_wheel(packages, len(packages))
 
     # TODO:
     # to think if I need those, since hard to tell which package
