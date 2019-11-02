@@ -1,2 +1,2 @@
 pytz==2018.5
-requests==2.19.1
+requests==2.20.0
