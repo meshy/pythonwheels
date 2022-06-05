@@ -3,10 +3,14 @@ import os
 import xml.etree.ElementTree as et
 
 HEADERS = b'''<?xml version=\"1.0\" standalone=\"no\"?>
-<?xml-stylesheet href="wheel.css" type="text/css"?>
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"
 \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
 '''
+
+STYLES = """
+.success { stroke: #4CAE4C; stroke-width: 1; fill: #5CB85C; }
+.default { stroke: #cccccc; stroke-width: 1; fill: #ffffff; }
+"""
 
 PATH_TEMPLATE = '''
 M {start_outer_x},{start_outer_y}
@@ -129,6 +133,8 @@ def generate_svg_wheel(packages, total):
         version='1.1',
         xmlns='http://www.w3.org/2000/svg',
     )
+    style = et.SubElement(wheel, "style", attrib={"type": "text/css"})
+    style.text = STYLES
 
     add_annular_sectors(wheel, packages, total)
 
