@@ -1,0 +1,47 @@
+---
+name: Deploy
+
+on:
+  # Scheduled tasks only run on the main branch.
+  schedule:
+    # Just while testing:
+    cron: '*/10 * * * *'  # Every 10 minutes.
+    # Once it seems to work
+    # cron: '0 10 * * *'  # Daily at 10AM UTC.
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install -r requirements.txt
+
+      - name: Fetch latest packages data and build the website
+        run: |
+          make generate
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::386531310338:role/pythonwheels_deploy_from_github
+          aws-region: eu-west-1
+
+      - name: Deploy the built files
+        run: |
+          TIMESTAMP=$(date --iso-8601=seconds --utc)
+          echo $TIMESTAMP
+          aws s3 cp index.html s3://pythonwheelscom
+          aws s3 cp wheel.svg s3://pythonwheelscom
+          aws s3 cp results.json s3://pythonwheelscom/results/${TIMESTAMP}.json
+          aws s3 cp s3://pythonwheelscom/results/${TIMESTAMP}.json s3://pythonwheelscom/results.json
