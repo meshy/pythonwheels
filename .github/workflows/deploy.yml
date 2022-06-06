@@ -4,7 +4,7 @@ name: Deploy
 on:
   # Scheduled tasks only run on the main branch.
   schedule:
-    cron: '0 10 * * *'  # Daily at 10AM UTC.
+    - cron: '0 10 * * *'  # Daily at 10AM UTC.
   workflow_dispatch:
 
 jobs:
