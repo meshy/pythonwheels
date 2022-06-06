@@ -2,6 +2,9 @@
 name: Deploy
 
 on:
+  push:
+    branches:
+      - main
   # Scheduled tasks only run on the main branch.
   schedule:
     - cron: '0 10 * * *'  # Daily at 10AM UTC.
