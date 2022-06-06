@@ -94,12 +94,13 @@ def add_fraction(wheel, packages, total):
     packages_with_wheels.text = '{0}'.format(wheel_packages)
 
     title = et.SubElement(packages_with_wheels, 'title')
-    percentage = '{:.0%}'.format(wheel_packages/total)
+    percentage = '{:.0%}'.format(wheel_packages / total)
     title.text = percentage
 
     # Dividing line
     et.SubElement(
-        wheel, 'line',
+        wheel,
+        'line',
         x1=str(CENTER - FRACTION_LINE // 2),
         y1=str(CENTER),
         x2=str(CENTER + FRACTION_LINE // 2),
