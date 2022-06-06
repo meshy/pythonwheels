@@ -1,8 +1,8 @@
 import math
+import os
 import xml.etree.ElementTree as et
 
-
-HEADERS = '''<?xml version=\"1.0\" standalone=\"no\"?>
+HEADERS = b'''<?xml version=\"1.0\" standalone=\"no\"?>
 <?xml-stylesheet href="wheel.css" type="text/css"?>
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"
 \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
@@ -76,7 +76,7 @@ def add_fraction(wheel, packages, total):
     text_attributes = {
         'text-anchor': 'middle',
         'dominant-baseline': 'central',
-        'font-size': str(2*OFFSET),
+        'font-size': str(2 * OFFSET),
         'font-family': '"Helvetica Neue",Helvetica,Arial,sans-serif',
         'fill': '#333333',
     }
@@ -93,12 +93,16 @@ def add_fraction(wheel, packages, total):
     )
     packages_with_wheels.text = '{0}'.format(wheel_packages)
 
+    title = et.SubElement(packages_with_wheels, 'title')
+    percentage = '{:.0%}'.format(wheel_packages/total)
+    title.text = percentage
+
     # Dividing line
     et.SubElement(
         wheel, 'line',
-        x1=str(CENTER - FRACTION_LINE//2),
+        x1=str(CENTER - FRACTION_LINE // 2),
         y1=str(CENTER),
-        x2=str(CENTER + FRACTION_LINE//2),
+        x2=str(CENTER + FRACTION_LINE // 2),
         y2=str(CENTER),
         attrib={'stroke': '#333333', 'stroke-width': '2'},
     )
@@ -113,11 +117,14 @@ def add_fraction(wheel, packages, total):
     )
     total_packages.text = '{0}'.format(total)
 
+    title = et.SubElement(total_packages, 'title')
+    title.text = percentage
+
 
 def generate_svg_wheel(packages, total):
     wheel = et.Element(
         tag='svg',
-        viewBox='0 0 {0} {0}'.format(2*CENTER),
+        viewBox='0 0 {0} {0}'.format(2 * CENTER),
         version='1.1',
         xmlns='http://www.w3.org/2000/svg',
     )
@@ -126,6 +133,9 @@ def generate_svg_wheel(packages, total):
 
     add_fraction(wheel, packages, total)
 
-    with open('wheel.svg', 'w') as svg:
+    with open('wheel.svg', 'wb') as svg:
         svg.write(HEADERS)
         svg.write(et.tostring(wheel))
+
+    # Install with: npm install svgexport -g
+    os.system('svgexport wheel.svg wheel.png 32:32')

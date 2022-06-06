@@ -4,7 +4,8 @@ help:
 	@echo "make update   -- upload the json and index.html to s3"
 
 generate:
-	python generate.py
+	wget https://hugovk.github.io/top-pypi-packages/top-pypi-packages-365-days.min.json -O top-pypi-packages.json
+	python3 generate.py
 
 update:
 	/usr/local/bin/s3cmd put index.html s3://wheelpackages/index.html  --cf-invalidate \

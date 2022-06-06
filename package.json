@@ -1,0 +1,23 @@
+{
+  "name": "pythonwheels",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "svgexport": "^0.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meshy/pythonwheels.git"
+  },
+  "author": "Charles Denton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meshy/pythonwheels/issues"
+  },
+  "homepage": "https://github.com/meshy/pythonwheels#readme"
+}

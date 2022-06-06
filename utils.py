@@ -1,35 +1,22 @@
 import datetime
 import json
-import xmlrpclib
-
 import pytz
 import requests
 
 
-BASE_URL = 'http://pypi.python.org/pypi'
+BASE_URL = 'https://pypi.org/pypi'
 
-DEPRECATED_PACKAGES = set((
+DEPRECATED_PACKAGES = {
+    'BeautifulSoup',
     'distribute',
     'django-social-auth',
-))
+    'nose',
+    'pep8',
+    'pycrypto',
+    'sklearn',
+}
 
 SESSION = requests.Session()
-
-
-def req_rpc(method, *args):
-    payload = xmlrpclib.dumps(args, method)
-
-    response = SESSION.post(
-        BASE_URL,
-        data=payload,
-        headers={'Content-Type': 'text/xml'},
-    )
-    if response.status_code == 200:
-        result = xmlrpclib.loads(response.content)[0][0]
-        return result
-    else:
-        # Some error occurred
-        pass
 
 
 def get_json_url(package_name):
@@ -40,7 +27,7 @@ def annotate_wheels(packages):
     print('Getting wheel data...')
     num_packages = len(packages)
     for index, package in enumerate(packages):
-        print index + 1, num_packages, package['name']
+        print(index + 1, num_packages, package['name'])
         has_wheel = False
         url = get_json_url(package['name'])
         response = SESSION.get(url)
@@ -62,13 +49,22 @@ def annotate_wheels(packages):
         else:
             package['css_class'] = 'default'
             package['icon'] = u'\u2717'  # Ballot X
-            package['title'] = 'This package has no wheel archives uploaded (yet!).'
+            package['title'] = ('This package has no wheel archives uploaded '
+                                '(yet!).')
 
 
 def get_top_packages():
     print('Getting packages...')
-    packages = req_rpc('top_packages')
-    return [{'name': n, 'downloads': d} for n, d in packages]
+
+    with open('top-pypi-packages.json') as data_file:
+        packages = json.load(data_file)['rows']
+
+    # Rename keys
+    for package in packages:
+        package['downloads'] = package.pop('download_count')
+        package['name'] = package.pop('project')
+
+    return packages
 
 
 def not_deprecated(package):
@@ -77,7 +73,7 @@ def not_deprecated(package):
 
 def remove_irrelevant_packages(packages, limit):
     print('Removing cruft...')
-    active_packages = filter(not_deprecated, packages)
+    active_packages = list(filter(not_deprecated, packages))
     return active_packages[:limit]
 
 
@@ -87,4 +83,4 @@ def save_to_file(packages, file_name):
         f.write(json.dumps({
             'data': packages,
             'last_update': now.strftime('%A, %d %B %Y, %X %Z'),
-        }))
+        }, indent=1))
