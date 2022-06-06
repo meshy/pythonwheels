@@ -41,7 +41,7 @@ jobs:
         run: |
           TIMESTAMP=$(date --iso-8601=seconds --utc)
           echo $TIMESTAMP
-          aws s3 cp index.html s3://pythonwheelscom
-          aws s3 cp wheel.svg s3://pythonwheelscom
-          aws s3 cp results.json s3://pythonwheelscom/results/${TIMESTAMP}.json
-          aws s3 cp s3://pythonwheelscom/results/${TIMESTAMP}.json s3://pythonwheelscom/results.json
+          aws s3 cp index.html s3://pythonwheels.com
+          aws s3 cp wheel.svg s3://pythonwheels.com
+          aws s3 cp results.json s3://pythonwheels.com/results/${TIMESTAMP}.json
+          aws s3 cp s3://pythonwheels.com/results/${TIMESTAMP}.json s3://pythonwheels.com/results.json
