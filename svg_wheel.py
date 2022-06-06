@@ -49,12 +49,12 @@ def annular_sector_path(start, stop):
 def add_annular_sectors(wheel, packages, total):
     for index, result in enumerate(packages):
         sector = et.SubElement(
-            parent=wheel,
-            tag='path',
+            wheel,
+            'path',
             d=annular_sector_path(*angles(index, total)),
             attrib={'class': result['css_class']},
         )
-        title = et.SubElement(parent=sector, tag='title')
+        title = et.SubElement(sector, 'title')
         title.text = u'{0} {1}'.format(result['name'], result['icon'])
 
 
@@ -85,8 +85,8 @@ def add_fraction(wheel, packages, total):
     wheel_packages = sum(package['wheel'] for package in packages)
 
     packages_with_wheels = et.SubElement(
-        parent=wheel,
-        tag='text',
+        wheel,
+        'text',
         x=str(CENTER),
         y=str(CENTER - OFFSET),
         attrib=text_attributes,
@@ -109,8 +109,8 @@ def add_fraction(wheel, packages, total):
 
     # Total packages
     total_packages = et.SubElement(
-        parent=wheel,
-        tag='text',
+        wheel,
+        'text',
         x=str(CENTER),
         y=str(CENTER + OFFSET),
         attrib=text_attributes,
