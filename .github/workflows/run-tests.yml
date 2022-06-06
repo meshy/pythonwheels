@@ -23,3 +23,7 @@ jobs:
       - name: Fetch latest packages data and build the website
         run: |
           make generate
+
+      - name: Check files against the pre-commit config
+        run: |
+          pre-commit run --all-files --show-diff-on-failure
