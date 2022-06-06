@@ -5,7 +5,7 @@ on:
   # Scheduled tasks only run on the main branch.
   schedule:
     # Just while testing:
-    cron: '*/10 * * * *'  # Every 10 minutes.
+    - cron: '*/10 * * * *'  # Every 10 minutes.
     # Once it seems to work
     # cron: '0 10 * * *'  # Daily at 10AM UTC.
   workflow_dispatch:
