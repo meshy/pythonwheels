@@ -123,7 +123,7 @@ def add_fraction(wheel, packages, total):
 
 def generate_svg_wheel(packages, total):
     wheel = et.Element(
-        tag='svg',
+        'svg',
         viewBox='0 0 {0} {0}'.format(2 * CENTER),
         version='1.1',
         xmlns='http://www.w3.org/2000/svg',
