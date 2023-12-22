@@ -35,7 +35,7 @@ jobs:
           make generate
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::386531310338:role/pythonwheels_deploy_from_github
           aws-region: eu-west-1
