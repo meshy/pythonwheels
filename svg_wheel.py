@@ -59,7 +59,7 @@ def add_annular_sectors(wheel, packages, total):
             attrib={"class": result["css_class"]},
         )
         title = et.SubElement(sector, "title")
-        title.text = "{0} {1}".format(result["name"], result["icon"])
+        title.text = f"{result['name']} {result['icon']}"
 
 
 def angles(index, total):
@@ -95,10 +95,10 @@ def add_fraction(wheel, packages, total):
         y=str(CENTER - OFFSET),
         attrib=text_attributes,
     )
-    packages_with_wheels.text = "{0}".format(wheel_packages)
+    packages_with_wheels.text = f"{wheel_packages}"
 
     title = et.SubElement(packages_with_wheels, "title")
-    percentage = "{:.0%}".format(wheel_packages / total)
+    percentage = f"{wheel_packages / float(total):.0%}"
     title.text = percentage
 
     # Dividing line
@@ -120,7 +120,7 @@ def add_fraction(wheel, packages, total):
         y=str(CENTER + OFFSET),
         attrib=text_attributes,
     )
-    total_packages.text = "{0}".format(total)
+    total_packages.text = f"{total}"
 
     title = et.SubElement(total_packages, "title")
     title.text = percentage
@@ -129,7 +129,7 @@ def add_fraction(wheel, packages, total):
 def generate_svg_wheel(packages, total):
     wheel = et.Element(
         "svg",
-        viewBox="0 0 {0} {0}".format(2 * CENTER),
+        viewBox=f"0 0 {2 * CENTER} {2 * CENTER}",
         version="1.1",
         xmlns="http://www.w3.org/2000/svg",
     )
