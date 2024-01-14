@@ -8,6 +8,7 @@ BASE_URL = "https://pypi.org/pypi"
 
 DEPRECATED_PACKAGES = {
     "BeautifulSoup",
+    "bs4",
     "distribute",
     "django-social-auth",
     "nose",
