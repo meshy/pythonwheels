@@ -3,13 +3,9 @@ import os
 import xml.etree.ElementTree as et
 
 HEADERS = b"""<?xml version=\"1.0\" standalone=\"no\"?>
+<?xml-stylesheet href="wheel.css" type="text/css"?>
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"
 \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
-"""
-
-STYLES = """
-.success { stroke: #4CAE4C; stroke-width: 1; fill: #5CB85C; }
-.default { stroke: #cccccc; stroke-width: 1; fill: #ffffff; }
 """
 
 PATH_TEMPLATE = """
@@ -59,7 +55,7 @@ def add_annular_sectors(wheel, packages, total):
             attrib={"class": result["css_class"]},
         )
         title = et.SubElement(sector, "title")
-        title.text = "{0} {1}".format(result["name"], result["icon"])
+        title.text = f"{result['name']} {result['icon']}"
 
 
 def angles(index, total):
@@ -78,11 +74,11 @@ def angles(index, total):
 
 def add_fraction(wheel, packages, total):
     text_attributes = {
+        "class": "wheel-text",
         "text-anchor": "middle",
         "dominant-baseline": "central",
         "font-size": str(2 * OFFSET),
         "font-family": '"Helvetica Neue",Helvetica,Arial,sans-serif',
-        "fill": "#333333",
     }
 
     # Packages with some sort of wheel
@@ -95,10 +91,10 @@ def add_fraction(wheel, packages, total):
         y=str(CENTER - OFFSET),
         attrib=text_attributes,
     )
-    packages_with_wheels.text = "{0}".format(wheel_packages)
+    packages_with_wheels.text = f"{wheel_packages}"
 
     title = et.SubElement(packages_with_wheels, "title")
-    percentage = "{:.0%}".format(wheel_packages / total)
+    percentage = f"{wheel_packages / float(total):.0%}"
     title.text = percentage
 
     # Dividing line
@@ -109,7 +105,7 @@ def add_fraction(wheel, packages, total):
         y1=str(CENTER),
         x2=str(CENTER + FRACTION_LINE // 2),
         y2=str(CENTER),
-        attrib={"stroke": "#333333", "stroke-width": "2"},
+        attrib={"class": "wheel-line", "stroke-width": "2"},
     )
 
     # Total packages
@@ -120,7 +116,7 @@ def add_fraction(wheel, packages, total):
         y=str(CENTER + OFFSET),
         attrib=text_attributes,
     )
-    total_packages.text = "{0}".format(total)
+    total_packages.text = f"{total}"
 
     title = et.SubElement(total_packages, "title")
     title.text = percentage
@@ -129,13 +125,10 @@ def add_fraction(wheel, packages, total):
 def generate_svg_wheel(packages, total):
     wheel = et.Element(
         "svg",
-        viewBox="0 0 {0} {0}".format(2 * CENTER),
+        viewBox=f"0 0 {2 * CENTER} {2 * CENTER}",
         version="1.1",
         xmlns="http://www.w3.org/2000/svg",
     )
-    style = et.SubElement(wheel, "style", attrib={"type": "text/css"})
-    style.text = STYLES
-
     add_annular_sectors(wheel, packages, total)
 
     add_fraction(wheel, packages, total)
