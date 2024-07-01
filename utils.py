@@ -13,6 +13,7 @@ DEPRECATED_PACKAGES = {
     "nose",
     "pep8",
     "pycrypto",
+    "pypular",
     "sklearn",
 }
 
