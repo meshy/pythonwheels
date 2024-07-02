@@ -14,6 +14,39 @@
         a.btn:last-child{border-bottom-width: 1px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
         pre {text-align: left;}
         footer{text-align: center;}
+        @media (prefers-color-scheme: dark) {
+          body {
+            color: #ccc;
+            background: black;
+          }
+          code, pre {
+            color: #ccc;
+            background: #222;
+          }
+          a {
+            color: #5bf;
+          }
+          a:hover,
+          a:hover div {
+            color: black;
+            background-color: #5bf;
+            outline: 0.05em solid #5bf;
+          }
+          .btn-default {
+            color: #ccc;
+            background: black;
+            border-color: #222;
+          }
+          .btn-default:hover,
+          .btn-default:focus,
+          .btn-default:active,
+          .btn-default.active,
+          .open.dropdown-toggle.btn-default {
+            color: #ccc;
+            background: #222;
+            border-color: #333;
+          }
+        }
     </style>
     <title>Python Wheels</title>
 </head>
