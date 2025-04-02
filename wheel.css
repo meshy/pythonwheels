@@ -4,6 +4,12 @@
   fill: #5CB85C;
 }
 
+.warning {
+  stroke: #d58512;
+  stroke-width: 1;
+  fill: #ed9c28;
+}
+
 .default {
   stroke: #cccccc;
   stroke-width: 1;
