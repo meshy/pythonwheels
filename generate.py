@@ -9,12 +9,22 @@ from utils import (
 TO_CHART = 360
 
 
-def main():
-    packages = remove_irrelevant_packages(get_top_packages(), TO_CHART)
+def main(to_chart: int = TO_CHART) -> None:
+    packages = remove_irrelevant_packages(get_top_packages(), to_chart)
     annotate_wheels(packages)
     save_to_file(packages, "results.json")
-    generate_svg_wheel(packages, TO_CHART)
+    generate_svg_wheel(packages, to_chart)
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        "-n", "--number", type=int, default=TO_CHART, help="number of packages to chart"
+    )
+    args = parser.parse_args()
+
+    main(args.number)

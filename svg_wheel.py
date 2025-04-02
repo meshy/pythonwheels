@@ -1,5 +1,4 @@
 import math
-import os
 import xml.etree.ElementTree as et
 
 HEADERS = b"""<?xml version=\"1.0\" standalone=\"no\"?>
@@ -22,7 +21,6 @@ PADDING = 10
 OUTER_RADIUS = 180
 INNER_RADIUS = OUTER_RADIUS / 2
 CENTER = PADDING + OUTER_RADIUS
-TAU = 2 * math.pi  # The angle, in radians, of a full circle.
 
 
 def annular_sector_path(start, stop):
@@ -60,9 +58,9 @@ def add_annular_sectors(wheel, packages, total):
 
 def angles(index, total):
     # Angle, in radians, of one wedge of the wheel.
-    angle_per_wedge = TAU / total
+    angle_per_wedge = math.tau / total
     # Used to turn the start of the wheel from east to north.
-    quarter_circle = TAU / 4
+    quarter_circle = math.tau / 4
 
     # Angle of the beginning of the wedge.
     start = (index * angle_per_wedge) - quarter_circle
