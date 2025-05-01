@@ -1,4 +1,4 @@
 pre-commit==3.8.0
-pytz==2024.1
+pytz==2025.2
 requests==2.32.3
 requests-cache==1.2.1
