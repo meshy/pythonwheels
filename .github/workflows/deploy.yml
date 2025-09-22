@@ -19,10 +19,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Clone code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.10'
 
@@ -35,7 +35,7 @@ jobs:
           make generate
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::386531310338:role/pythonwheels_deploy_from_github
           aws-region: eu-west-1
