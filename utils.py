@@ -21,6 +21,11 @@ DEPRECATED_PACKAGES = {
 # Keep responses for one hour
 SESSION = requests_cache.CachedSession("requests-cache", expire_after=60 * 60)
 
+# Updated ~ when the release candidates start to appear
+# Goal: to have as many as possible wheels ready to use from the day it's released
+NEWEST_PYTHON_VER = "3.13"
+NEWEST_PYTHON_ABI_TAG = "cp313"
+
 
 def get_json_url(package_name):
     return BASE_URL + "/" + package_name + "/json"
@@ -32,6 +37,7 @@ def annotate_wheels(packages):
     for index, package in enumerate(packages):
         print(index + 1, num_packages, package["name"])
         has_wheel = False
+        has_newest_wheel = False
         url = get_json_url(package["name"])
         response = SESSION.get(url)
         if response.status_code != 200:
@@ -41,13 +47,24 @@ def annotate_wheels(packages):
         for download in data["urls"]:
             if download["packagetype"] == "bdist_wheel":
                 has_wheel = True
+                abi_tag = download["filename"].split("-")[-2]
+                # wheel can be universal or compiled for the specific Python version
+                # there can be additional letters at the end of the abi tag
+                # e.g. "cp313t" built for free-threading
+                if abi_tag in ["none", "abi3"] or abi_tag.startswith(NEWEST_PYTHON_ABI_TAG):
+                    has_newest_wheel = True
         package["wheel"] = has_wheel
+        package["newest_wheel"] = has_newest_wheel
 
         # Display logic. I know, I'm sorry.
         package["value"] = 1
-        if has_wheel:
+        if has_newest_wheel:
             package["css_class"] = "success"
             package["icon"] = "\u2713"  # Check mark
+            package["title"] = f"This package provides a wheel compatible with Python {NEWEST_PYTHON_VER}."
+        elif has_wheel:
+            package["css_class"] = "warning"
+            package["icon"] = "\u23FA"  # Circle
             package["title"] = "This package provides a wheel."
         else:
             package["css_class"] = "default"
